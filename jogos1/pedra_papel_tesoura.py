@@ -7,7 +7,8 @@ def jogar():
 
     print('\n')
     print('|||PEDRA PAPEL TESOURA|||')
-
+    oponente = random.randint(1, 3)
+    
     print('\n')
 
     print('[1] Pedra')
@@ -23,7 +24,7 @@ def jogar():
 
     print('\n')
 
-    oponente = random.randint(1, 3)
+
 
     if player == 1:
         print('Você escolheu Pedra!\n')

@@ -4,7 +4,7 @@ def jogar():
     print('jogo da forca!')
     print('$$$$$$$$$$$$$$$\n')
 
-    arquivo = open('palavras.txt', 'r')
+    arquivo = open('palavras_forca.txt', encoding="utf8")
     palavras = []
 
 
