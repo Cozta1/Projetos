@@ -1,134 +1,55 @@
-def jogar():
+import random
 
-    print('$$$$$$$$$$$$$$$')
-    print('jogo da forca!')
-    print('$$$$$$$$$$$$$$$\n')
+arquivo = open("br-sem-acentos.txt")
+linhas = arquivo.readlines()
+palavra = ''
 
-    arquivo = open('palavras_forca.txt', encoding="utf8")
-    palavras = []
+while len(palavra) < 5 or len(palavra) > 10:
+    sorteio = random.randint(0, len(linhas))
+    palavra = linhas[sorteio]
+    palavra = palavra.upper().strip()
+arquivo.close()
 
+letras_certas = ['_' for letra in palavra]
+letras_erradas = []
 
-    for linha in arquivo:
-        linha = linha.strip()
-        palavras.append(linha)
+enforcou = False
+acertou = False
 
-    arquivo.close()
+erros = 0
 
-    from random import randint
-    numero = randint(0, len(palavras))
-    palavra = palavras[numero].upper()
+print(*letras_certas)
 
-    letras_certas = ['_' for letra in palavra]
+while not enforcou and not acertou:
 
-    enforcou = False
-    acertou = False
-
-    erros = 0
-
-    print(letras_certas)
-
-    while(not enforcou and not acertou):
-
+    chute = input('\nLetra:')
+    while  len(chute) > 1:
         chute = input('\nLetra:')
-        chute = chute.strip().upper()
-        if(chute in palavra):
-            index = 0
-            for letra in palavra:
-                if(chute == letra):
-                    letras_certas [index] = letra
-                index += 1
-        else:
-            erros += 1
-            print("  _______     ")
-            print(" |/      |    ")
-
-            if (erros == 1):
-                print(" |      (_)   ")
-                print(" |            ")
-                print(" |            ")
-                print(" |            ")
-
-            if (erros == 2):
-                print(" |      (_)   ")
-                print(" |      \     ")
-                print(" |            ")
-                print(" |            ")
-
-            if (erros == 3):
-                print(" |      (_)   ")
-                print(" |      \|    ")
-                print(" |            ")
-                print(" |            ")
-
-            if (erros == 4):
-                print(" |      (_)   ")
-                print(" |      \|/   ")
-                print(" |            ")
-                print(" |            ")
-
-            if (erros == 5):
-                print(" |      (_)   ")
-                print(" |      \|/   ")
-                print(" |       |    ")
-                print(" |            ")
-
-            if (erros == 6):
-                print(" |      (_)   ")
-                print(" |      \|/   ")
-                print(" |       |    ")
-                print(" |      /     ")
-
-            if (erros == 7):
-                print(" |      (_)   ")
-                print(" |      \|/   ")
-                print(" |       |    ")
-                print(" |      / \   ")
-
-            print(" |            ")
-            print("_|___         ")
-
-            print('errou! tentativas restantes {}'.format(7 - erros))
-
-        enforcou = erros == 7
-        acertou = '_' not in letras_certas
-
-        print(letras_certas)
-
-    if(acertou):
-        print("Parabéns, você ganhou!")
-        print("       ___________      ")
-        print("      '._==_==_=_.'     ")
-        print("      .-\\:      /-.    ")
-        print("     | (|:.     |) |    ")
-        print("      '-|:.     |-'     ")
-        print("        \\::.    /      ")
-        print("         '::. .'        ")
-        print("           ) (          ")
-        print("         _.' '._        ")
-        print("        '-------'       ")
+    chute = chute.strip().upper()
+    if chute in palavra:
+        index = 0
+        for letra in palavra:
+            if chute == letra:
+                letras_certas [index] = letra
+            index += 1
+            
     else:
-        print('\nDERROTA!\n')
+        if chute not in letras_erradas:
+            letras_erradas.append(chute)
+            erros += 1
 
-        print("Você foi enforcado!")
-        print("A palavra era {}".format(palavra))
-        print("    _______________         ")
-        print("   /               \       ")
-        print("  /                 \      ")
-        print("//                   \/\  ")
-        print("\|   XXXX     XXXX   | /   ")
-        print(" |   XXXX     XXXX   |/     ")
-        print(" |   XXX       XXX   |      ")
-        print(" |                   |      ")
-        print(" \__      XXX      __/     ")
-        print("   |\     XXX     /|       ")
-        print("   | |           | |        ")
-        print("   | I I I I I I I |        ")
-        print("   |  I I I I I I  |        ")
-        print("   \_             _/       ")
-        print("     \_         _/         ")
-        print("       \_______/           ")
+        print(f'errou! tentativas restantes {7 - erros}\n')
+        print('Letras erradas:', *letras_erradas)
+    enforcou = erros == 7
+    acertou = '_' not in letras_certas
 
-    print('Fim de jogo')
+    print(*letras_certas)
 
-if(__name__ == '__main__'):
-    jogar()
+if acertou:
+    print("Parabéns, você acertou!")
+    print(f"A palavra era {palavra}")
+else:
+    print('\nDERROTA!\n')
+
+    print("Você foi enforcado!")
+    print(f"A palavra era {palavra}")
